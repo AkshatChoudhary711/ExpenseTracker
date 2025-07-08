@@ -1,0 +1,18 @@
+meta {
+  name: delete expenses
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:8080/expenses/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "amount":23.0,
+    "description":"Demo"
+  }
+}
