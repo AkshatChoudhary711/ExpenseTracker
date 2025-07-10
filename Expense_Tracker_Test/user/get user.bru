@@ -1,0 +1,17 @@
+meta {
+  name: get user
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username":"dhruva"
+  }
+}

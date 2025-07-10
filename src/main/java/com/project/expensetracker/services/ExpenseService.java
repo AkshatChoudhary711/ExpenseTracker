@@ -17,6 +17,12 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
+    public List<Expense> getExpenseByCategory(Expense.category category){
+        return expenseRepository.findAll().stream()
+                .filter(expense -> expense.getCategory()==category)
+                .toList();
+    }
+
     public List<Expense> getExpensesByMonth(int month){
         return expenseRepository.findAll().stream()
                 .filter(expense -> expense.getDate()
@@ -44,11 +50,13 @@ public class ExpenseService {
                 .toList();
     }
 
-    public void addExpense(Expense expense){
+    public void addExpense(Expense expense) throws IllegalArgumentException{
+        if (expense.getCategory() == null) expense.setCategory(Expense.category.OTHERS);
         expenseRepository.save(expense);
     }
 
-    public void deleteExpense(long id){
+    public void deleteExpense(long id) throws IllegalArgumentException{
+        if (!expenseRepository.existsById(id)) throw new IllegalArgumentException("Expense with id "+id+" does not exist");
         expenseRepository.deleteById(id);
     }
 

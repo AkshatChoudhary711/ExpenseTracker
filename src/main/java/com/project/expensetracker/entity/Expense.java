@@ -1,19 +1,28 @@
 package com.project.expensetracker.entity;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.NonNull;
-
+import lombok.*;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 
 @Entity
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class Expense {
+    public enum category{
+        MOBILE_RECHARGE,
+        FOOD,
+        UTILITIES,
+        GIFT,
+        CONTRIBUTION,
+        MONEY_TRANSFER,
+        OTHERS
+    };
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
@@ -23,6 +32,8 @@ public class Expense {
     LocalDateTime date;
     @Column(nullable = false)
     String description;
+    @Enumerated(EnumType.STRING)
+    category category;
 
     @PrePersist
     @PreUpdate
@@ -30,46 +41,5 @@ public class Expense {
         date = LocalDateTime.now();
     }
 
-    public Expense(long id, double amount, LocalDateTime date, String description) {
-        this.id = id;
-        this.amount = amount;
-        this.date = date;
-        this.description = description;
-    }
 
-    public Expense() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-//        this.date = date;
-        this.date = LocalDateTime.now();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
